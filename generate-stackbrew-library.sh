@@ -69,7 +69,7 @@ join() {
 }
 
 for version in "${versions[@]}"; do
-	for variant in debian alpine ubi; do
+	for variant in ubi; do
 		commit="$(dirCommit "$version/$variant")"
 
 		fullVersion="$(git show "$commit":"$version/$variant/Dockerfile" | awk '$1 == "ENV" && $2 == "GHOST_VERSION" { print $3; exit }')"
