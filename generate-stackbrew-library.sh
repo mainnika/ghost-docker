@@ -4,7 +4,7 @@ set -eu
 declare -A aliases=(
 	[4]='latest'
 )
-defaultVariant='debian'
+defaultVariant='ubi'
 
 self="$(basename "$BASH_SOURCE")"
 cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
@@ -69,7 +69,7 @@ join() {
 }
 
 for version in "${versions[@]}"; do
-	for variant in debian alpine; do
+	for variant in debian alpine ubi; do
 		commit="$(dirCommit "$version/$variant")"
 
 		fullVersion="$(git show "$commit":"$version/$variant/Dockerfile" | awk '$1 == "ENV" && $2 == "GHOST_VERSION" { print $3; exit }')"
