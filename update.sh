@@ -51,3 +51,5 @@ for version in "${versions[@]}"; do
 			"$version"/*/Dockerfile
 	)
 done
+
+[[ -z $(git status -s) ]] && exit 1
