@@ -25,7 +25,7 @@ jobs:
           ./update.sh
 
       - name: commit
-        # if: ${{ steps.update.outputs.updated > 0 }}
+        if: ${{ steps.update.outputs.updated > 0 }}
         run: |
           git add -A
           git commit -m "Update to ${{ steps.update.outputs.ghost }}, ghost-cli ${{ steps.update.outputs.ghost-cli }}"
