@@ -19,13 +19,14 @@ jobs:
           git config user.name "GitHub Bot"
           git config user.email "<nikita+github-bot@tokarch.uk>"
 
-      - name: fetch the latest ghost version
+      - name: fetch and update to the latest ghost version
+        id: update
         run: |
           ./update.sh
 
       - name: commit
-        if: ${{ success() }}
+        # if: ${{ steps.update.outputs.updated > 0 }}
         run: |
           git add -A
-          git commit -m "Updated ghost version"
+          git commit -m "Update to ${{ steps.update.outputs.ghost }}, ghost-cli ${{ steps.update.outputs.ghost-cli }}"
           git push origin master

@@ -52,4 +52,8 @@ for version in "${versions[@]}"; do
 	)
 done
 
-[[ -z $(git status -s) ]] && exit 1
+updatedCount="$(git status -s --untracked-files=no | wc -l)"
+
+echo "::set-output name=updated::$updatedCount"
+echo "::set-output name=ghost::$fullVersion"
+echo "::set-output name=ghost-cli::$cliVersion"
