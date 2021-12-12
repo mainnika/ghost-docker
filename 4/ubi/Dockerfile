@@ -50,7 +50,7 @@ RUN set -eux; \
 ENV GHOST_INSTALL /var/lib/ghost
 ENV GHOST_CONTENT /var/lib/ghost/content
 
-ENV GHOST_VERSION 4.27.1
+ENV GHOST_VERSION 4.27.2
 
 COPY yarn-adjust-network-timeout.patch /tmp/yarn-adjust-network-timeout.patch
 
