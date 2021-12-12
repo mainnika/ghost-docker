@@ -72,7 +72,7 @@ jobs:
           build-args: |
             ghost_cli_version=${{ steps.dotenv.outputs.ghost_cli_version }}
             ghost_version=${{ steps.dotenv.outputs.ghost_version }}
-          push: ${{ github.event_name != 'pull_request' }}
+          push: ${{ github.event_name != 'pull_request' && github.ref_name == 'master' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
@@ -84,7 +84,7 @@ jobs:
       # command below.
       # https://github.com/sigstore/cosign
       - name: Sign the published Docker image
-        if: ${{ github.event_name != 'pull_request' && !github.event.repository.private }}
+        if: ${{ github.event_name != 'pull_request' && github.ref_name == 'master' && !github.event.repository.private }}
         env:
           COSIGN_EXPERIMENTAL: "true"
         # This step uses the identity token to provision an ephemeral certificate
