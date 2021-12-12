@@ -46,9 +46,9 @@ for version in "${versions[@]}"; do
 	(
 		set -x
 		sed -ri \
-			-e 's/^(ENV GHOST_VERSION) .*/\1 '"$fullVersion"'/' \
-			-e 's/^(ENV GHOST_CLI_VERSION) .*/\1 '"$cliVersion"'/' \
-			"$version"/*/Dockerfile
+			-e 's/^(ghost_version)=.*/\1='"$fullVersion"'/' \
+			-e 's/^(ghost_cli_version)=.*/\1='"$cliVersion"'/' \
+			.env
 	)
 done
 
