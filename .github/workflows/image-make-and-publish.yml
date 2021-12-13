@@ -74,8 +74,8 @@ jobs:
         with:
           context: ./${{ matrix.version }}/${{ matrix.base }}
           build-args: |
-            ghost_cli_version=${{ steps.dotenv.outputs.ghost_cli_version }}
-            ghost_version=${{ steps.dotenv.outputs.ghost_version }}
+            GHOST_CLI_VERSION=${{ steps.dotenv.outputs.ghost_cli_version }}
+            GHOST_VERSION=${{ steps.dotenv.outputs.ghost_version }}
           push: ${{ github.event_name != 'pull_request' && github.ref_name == 'master' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

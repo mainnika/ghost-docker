@@ -43,17 +43,17 @@ COPY --from=gosu-bin /usr/local/bin/gosu /usr/local/bin/gosu
 ENV NODE_ENV production
 
 # must be defined using build-args
-ARG ghost_cli_version
+ARG GHOST_CLI_VERSION
 
 RUN set -eux; \
-	npm install -g "ghost-cli@$ghost_cli_version"; \
+	npm install -g "ghost-cli@$GHOST_CLI_VERSION"; \
 	npm cache clean --force
 
 ENV GHOST_INSTALL /var/lib/ghost
 ENV GHOST_CONTENT /var/lib/ghost/content
 
 # must be defined using build-args
-ARG ghost_version
+ARG GHOST_VERSION
 
 COPY yarn-adjust-network-timeout.patch /tmp/yarn-adjust-network-timeout.patch
 
@@ -64,7 +64,7 @@ RUN set -eux; \
 	chown node:node "$GHOST_INSTALL"; \
 	\
 # ignore warnings about mysql setup
-	gosu node ghost install "$ghost_version" --db mysql --dbhost mysql --no-prompt --no-stack --no-setup --dir "$GHOST_INSTALL" || true; \
+	gosu node ghost install "$GHOST_VERSION" --db mysql --dbhost mysql --no-prompt --no-stack --no-setup --dir "$GHOST_INSTALL" || true; \
 	\
 # tell Ghost to listen on all ips and not prompt for additional configuration
 	cd "$GHOST_INSTALL"; \
