@@ -2,15 +2,15 @@
 # https://docs.ghost.org/faq/node-versions/
 # https://github.com/nodejs/Release (looking for "LTS")
 # https://github.com/TryGhost/Ghost/blob/v4.1.2/package.json#L38
-FROM registry.access.redhat.com/ubi8/ubi as gosu-bin
+FROM registry.access.redhat.com/ubi9/ubi as gosu-bin
 
 RUN dnf makecache
 
 # grab gosu for easy step-down from root
 # https://github.com/tianon/gosu/releases
-ENV GOSU_VERSION 1.12
+ENV GOSU_VERSION 1.17
 RUN set -eux; \
-	dnf install -yq https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm; \
+	dnf install -yq https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm; \
 	dnf install -yq ca-certificates gnupg2 wget dpkg; \
 	dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
 	wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"; \
@@ -28,12 +28,12 @@ RUN set -eux; \
 	gosu --version; \
 	gosu nobody true
 
-FROM registry.access.redhat.com/ubi8/ubi as final
+FROM registry.access.redhat.com/ubi9/ubi as final
 
 RUN dnf makecache
 
 RUN dnf install -yq patch
-RUN dnf module install -yq nodejs:14
+RUN dnf module install -yq nodejs:18/common
 
 RUN groupadd --gid 1000 node \
   && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
@@ -55,11 +55,7 @@ ENV GHOST_CONTENT /var/lib/ghost/content
 # must be defined using build-args
 ARG GHOST_VERSION
 
-COPY yarn-adjust-network-timeout.patch /tmp/yarn-adjust-network-timeout.patch
-
 RUN set -eux; \
-	patch -d "$(npm config get prefix)/lib" -p1 < /tmp/yarn-adjust-network-timeout.patch; \
-	\
 	mkdir -p "$GHOST_INSTALL"; \
 	chown node:node "$GHOST_INSTALL"; \
 	\
