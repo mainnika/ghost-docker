@@ -46,8 +46,10 @@ ENV NODE_ENV production
 ARG GHOST_CLI_VERSION
 
 RUN set -eux; \
-	npm install -g "ghost-cli@$GHOST_CLI_VERSION"; \
-	npm cache clean --force
+	npm install -g "ghost-cli@$GHOST_CLI_VERSION";
+
+RUN set -eux; \
+	npm install -g yarn;
 
 ENV GHOST_INSTALL /var/lib/ghost
 ENV GHOST_CONTENT /var/lib/ghost/content
@@ -58,6 +60,7 @@ ARG GHOST_VERSION
 RUN set -eux; \
 	mkdir -p "$GHOST_INSTALL"; \
 	chown node:node "$GHOST_INSTALL"; \
+	yarn config set network-timeout 180000; \
 	\
 # ignore warnings about mysql setup
 	gosu node ghost install "$GHOST_VERSION" --db mysql --dbhost mysql --no-prompt --no-stack --no-setup --dir "$GHOST_INSTALL" || true; \
