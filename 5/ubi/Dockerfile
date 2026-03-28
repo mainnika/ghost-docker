@@ -60,8 +60,8 @@ ARG GHOST_VERSION
 RUN set -eux; \
 	mkdir -p "$GHOST_INSTALL"; \
 	chown node:node "$GHOST_INSTALL"; \
-	yarn config set network-timeout 600000 \
-	yarn config set network-concurrency 1 \
+	yarn config set network-timeout 600000; \
+	yarn config set network-concurrency 1; \
 # ignore warnings about mysql setup
 	gosu node ghost install "$GHOST_VERSION" --db mysql --dbhost mysql --no-prompt --no-stack --no-setup --dir "$GHOST_INSTALL" || true; \
 	\
