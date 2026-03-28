@@ -2,8 +2,8 @@ pipeline {
     agent { label 'athome' }
 
     environment {
-        REGISTRY = 'registry.example.com'
-        IMAGE_NAME = 'example/ghost'
+        REGISTRY = 'ghcr.io'
+        IMAGE_NAME = 'mainnika/ghost'
     }
 
     stages {
@@ -43,7 +43,7 @@ pipeline {
         stage('Login to Registry') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'registry-credentials',
+                    credentialsId: 'docr-mainnika',
                     usernameVariable: 'REGISTRY_USER',
                     passwordVariable: 'REGISTRY_PASSWORD'
                 )]) {
