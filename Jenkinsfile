@@ -43,7 +43,7 @@ pipeline {
         stage('Login to Registry') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'docr-mainnika',
+                    credentialsId: 'ghcr-io',
                     usernameVariable: 'REGISTRY_USER',
                     passwordVariable: 'REGISTRY_PASSWORD'
                 )]) {
