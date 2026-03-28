@@ -8,7 +8,7 @@ RUN dnf makecache
 
 # grab gosu for easy step-down from root
 # https://github.com/tianon/gosu/releases
-ENV GOSU_VERSION 1.17
+ENV GOSU_VERSION 1.19
 RUN set -eux; \
 	dnf install -yq https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm; \
 	dnf install -yq ca-certificates gnupg2 wget dpkg; \
@@ -33,7 +33,7 @@ FROM registry.access.redhat.com/ubi9/ubi as final
 RUN dnf makecache
 
 RUN dnf install -yq patch
-RUN dnf module install -yq nodejs:18/common
+RUN dnf module install -yq nodejs:22/common
 
 RUN groupadd --gid 1000 node \
   && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
