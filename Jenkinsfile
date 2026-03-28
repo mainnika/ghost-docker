@@ -83,6 +83,7 @@ pipeline {
                                         --tag ${REGISTRY}/${IMAGE_NAME}:${env.GHOST_VERSION}-${BASE} \
                                         --tag ${REGISTRY}/${IMAGE_NAME}:${VERSION}-${BASE} \
                                         --tag ${REGISTRY}/${IMAGE_NAME}:sha-${gitShortSha} \
+                                        --network host \
                                         --push \
                                         ./${VERSION}/${BASE}
                                 """
