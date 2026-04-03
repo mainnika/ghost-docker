@@ -49,7 +49,7 @@ RUN set -eux; \
 	npm install -g "ghost-cli@$GHOST_CLI_VERSION";
 
 RUN set -eux; \
-	npm install -g yarn;
+	npm install -g yarn patch-package;
 
 ENV GHOST_INSTALL /var/lib/ghost
 ENV GHOST_CONTENT /var/lib/ghost/content
