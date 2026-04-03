@@ -63,7 +63,7 @@ RUN set -eux; \
 	cd "$GHOST_INSTALL"; \
 	curl -OL "https://github.com/TryGhost/Ghost/blob/v$GHOST_VERSION/package.json?raw=true"; \
 	curl -OL "https://github.com/TryGhost/Ghost/blob/v$GHOST_VERSION/yarn.lock?raw=true"; \
-	gosu yarn install --frozen-lockfile --non-interactive --no-cache --network-timeout=1000000; \
+	gosu node yarn install --frozen-lockfile --non-interactive --no-cache --network-timeout=1000000; \
 	# ignore warnings about mysql setup
 	gosu node ghost install "$GHOST_VERSION" --db mysql --dbhost mysql --no-prompt --no-stack --no-setup --dir . || true; \
 	# tell Ghost to listen on all ips and not prompt for additional configuration
