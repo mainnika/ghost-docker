@@ -65,7 +65,7 @@ RUN set -eux; \
 	curl -OL "https://raw.githubusercontent.com/TryGhost/Ghost/refs/tags/v$GHOST_VERSION/package.json"; \
 	gosu node yarn install --frozen-lockfile --non-interactive --no-cache --network-timeout=1000000; \
 	# ignore warnings about mysql setup
-	gosu node ghost install "$GHOST_VERSION" --db mysql --dbhost mysql --no-prompt --no-stack --no-setup --dir . || true; \
+	gosu node ghost install "$GHOST_VERSION" --db mysql --dbhost mysql --no-prompt --no-stack --no-setup --check-empty false --dir . || true; \
 	# tell Ghost to listen on all ips and not prompt for additional configuration
 	gosu node ghost config --no-prompt --ip 0.0.0.0 --port 2368 --url http://localhost:2368 --db mysql --dbhost mysql --dbuser ghost --dbpass ghost --dbname ghost; \
 	gosu node ghost config paths.contentPath "$GHOST_CONTENT"; \
