@@ -61,8 +61,8 @@ RUN set -eux; \
 	mkdir -p "$GHOST_INSTALL"; \
 	chown node:node "$GHOST_INSTALL"; \
 	cd "$GHOST_INSTALL"; \
-	curl -OL "https://github.com/TryGhost/Ghost/blob/v$GHOST_VERSION/package.json?raw=true"; \
-	curl -OL "https://github.com/TryGhost/Ghost/blob/v$GHOST_VERSION/yarn.lock?raw=true"; \
+	curl -OL "https://raw.githubusercontent.com/TryGhost/Ghost/refs/tags/v$GHOST_VERSION/yarn.lock"; \
+	curl -OL "https://raw.githubusercontent.com/TryGhost/Ghost/refs/tags/v$GHOST_VERSION/package.json"; \
 	gosu node yarn install --frozen-lockfile --non-interactive --no-cache --network-timeout=1000000; \
 	# ignore warnings about mysql setup
 	gosu node ghost install "$GHOST_VERSION" --db mysql --dbhost mysql --no-prompt --no-stack --no-setup --dir . || true; \
