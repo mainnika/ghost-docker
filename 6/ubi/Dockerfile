@@ -49,7 +49,8 @@ RUN set -eux; \
 	npm install -g "ghost-cli@$GHOST_CLI_VERSION";
 
 RUN set -eux; \
-	npm install -g yarn patch-package;
+	corepack enable; \
+	npm install -g patch-package;
 
 ENV GHOST_INSTALL /var/lib/ghost
 ENV GHOST_CONTENT /var/lib/ghost/content
@@ -80,7 +81,7 @@ RUN set -eux; \
 	chown node:node "$GHOST_CONTENT"; \
 	chmod 1777 "$GHOST_CONTENT"; \
 	\
-	gosu node npx yarn cache clean; \
+	gosu node yarn cache clean; \
 	gosu node npx npm cache clean --force; \
 	dnf clean all; \
 	npm cache clean --force; \
