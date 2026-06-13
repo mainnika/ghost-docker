@@ -49,8 +49,8 @@ RUN set -eux; \
 	npm install -g "ghost-cli@$GHOST_CLI_VERSION";
 
 RUN set -eux; \
-	corepack enable; \
-	npm install -g patch-package;
+	npm install -g corepack patch-package; \
+	corepack enable
 
 ENV GHOST_INSTALL /var/lib/ghost
 ENV GHOST_CONTENT /var/lib/ghost/content
@@ -62,9 +62,10 @@ RUN set -eux; \
 	mkdir -p "$GHOST_INSTALL"; \
 	chown node:node "$GHOST_INSTALL"; \
 	cd "$GHOST_INSTALL"; \
-	curl -OL "https://raw.githubusercontent.com/TryGhost/Ghost/refs/tags/v$GHOST_VERSION/yarn.lock"; \
-	curl -OL "https://raw.githubusercontent.com/TryGhost/Ghost/refs/tags/v$GHOST_VERSION/package.json"; \
-	gosu node yarn install --frozen-lockfile --non-interactive --no-cache --network-timeout=1000000; \
+	gosu node curl -L -o ghost.tar.gz "https://github.com/TryGhost/Ghost/archive/refs/tags/v$GHOST_VERSION.tar.gz"; \
+	gosu node tar -xzf ghost.tar.gz --strip-components=1; \
+	gosu node rm ghost.tar.gz; \
+	gosu node pnpm install --frozen-lockfile; \
 	# ignore warnings about mysql setup
 	gosu node ghost install "$GHOST_VERSION" --db mysql --dbhost mysql --no-prompt --no-stack --no-setup --check-empty false --dir . || true; \
 	# tell Ghost to listen on all ips and not prompt for additional configuration
@@ -81,11 +82,11 @@ RUN set -eux; \
 	chown node:node "$GHOST_CONTENT"; \
 	chmod 1777 "$GHOST_CONTENT"; \
 	\
-	gosu node yarn cache clean; \
+	gosu node pnpm store prune; \
 	gosu node npx npm cache clean --force; \
 	dnf clean all; \
 	npm cache clean --force; \
-	rm -rv /tmp/yarn* /tmp/v8*
+	rm -rf /tmp/yarn* /tmp/v8* /tmp/pnpm*
 
 WORKDIR $GHOST_INSTALL
 VOLUME $GHOST_CONTENT
