@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         base: ['ubi']
-        version: [5]
+        version: [6]
     permissions:
       contents: read
       packages: write
