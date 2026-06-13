@@ -61,7 +61,7 @@ pipeline {
                     }
                     axis {
                         name 'VERSION'
-                        values '5'
+                        values '6'
                     }
                 }
                 stages {
